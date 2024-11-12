@@ -9,7 +9,7 @@ node {
     def mavenHome = tool name:"maven3.9.8"
 
     try{
-    
+    sendSlackNotifications('STARTED')    
     stage('CheckOutCode')
     {
        git branch: 'development', credentialsId: '2d95cb81-843b-4ee9-bbc5-2531d0e7a4d6', url: 'https://github.com/DevOpsRobo-1/maven-web-application.git'
