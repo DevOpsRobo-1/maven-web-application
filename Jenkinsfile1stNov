@@ -7,6 +7,8 @@ node {
     echo "build number is:${env.BUILD_NUMBER}"
 
     def mavenHome = tool name:"maven3.9.8"
+
+    try{
     
     stage('CheckOutCode')
     {
@@ -34,6 +36,12 @@ node {
         sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@10.42.1.148:/opt/apache-tomcat-9.0.95/webapps"
     }
     }
-
-    
+}
+catch(e){
+currentBuid.result = "FAILED"
+throw e
+}
+    finally{
+sendSlackNotifications(currentBuild.result)
+}
 }
